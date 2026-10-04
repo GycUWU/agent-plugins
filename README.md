@@ -5,6 +5,7 @@
 | 插件 | 宿主 | 状态 | 说明 |
 |---|---|---|---|
 | [Normify](plugins/normify-codex/docs/Codex.md) | Codex | 已实现并验证 | 31 个架构模块树工具、指纹同步、严格校验、HTML 渲染和开发变更闭环 |
+| [Normify](plugins/normify-zcode/docs/ZCode.md) | Z.ai ZCode | 协议及本机加载器验证通过 | 同一服务与引擎，使用 ZCode 插件清单和工作区变量 |
 
 ## 安装到 Codex
 
@@ -23,9 +24,11 @@ codex plugin add normify@gyc-agent-plugins
 
 ## 使用
 
+ZCode 用户在 设置 → 插件 → 创建 → 添加插件市场 中输入本仓库地址，然后从 `gyc-zcode-plugins` 安装 `normify`。Codex 使用 `.agents/plugins/marketplace.json`；ZCode 使用根目录 `marketplace.json`，两个市场指向各自的插件目录。
+
 优先传结构数据目录的绝对 `dir` 和源码目录的绝对 `repoRoot`。生成结构时只读源码，开发任务沿用用户已有授权；写时校验、全项目校验和关闭变更的零 error 要求保持原样。
 
-参见 [使用与兼容性说明](plugins/normify-codex/docs/Codex.md) 和 [验收记录](plugins/normify-codex/docs/Codex-validation.md)。
+参见 [Codex 使用说明](plugins/normify-codex/docs/Codex.md)、[Codex 验收记录](plugins/normify-codex/docs/Codex-validation.md) 和 [ZCode 验收记录](plugins/normify-zcode/docs/ZCode-validation.md)。
 
 ## 开发
 

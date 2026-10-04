@@ -1,0 +1,4 @@
+# Preserve identical generated bundles across Windows and Unix checkouts.
+# Upstream HTML templates contain intentional trailing spaces.
+plugins/normify-codex/dist/normify.mjs -text whitespace=-blank-at-eol
+plugins/normify-zcode/dist/normify.mjs -text whitespace=-blank-at-eol

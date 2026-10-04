@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { copyFileSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
 import { build } from 'esbuild';
 
 // added by gyc 2026-10-04：打包：编译上游引擎并内联运行依赖，安装后的插件只需 Node.js。
@@ -38,5 +38,17 @@ for (const packageDir of [...packages].sort()) {
   for (const name of licenses) notices.push(readFileSync(join(packageDir, name), 'utf8'));
 }
 writeFileSync(join(root, 'dist/THIRD-PARTY-NOTICES.txt'), notices.join('\n\n'), 'utf8');
+// added by gyc 2026-10-04 end
+// added by gyc 2026-10-04 start：分发：宿主仅有清单差异，两版服务从同一次构建同步。
+const zcode = resolve(root, '../normify-zcode');
+for (const path of ['dist/normify.mjs', 'dist/THIRD-PARTY-NOTICES.txt', 'docs/SPEC.zh-CN.md', 'LICENSE']) {
+  mkdirSync(join(zcode, dirname(path)), { recursive: true });
+  copyFileSync(join(root, path), join(zcode, path));
+}
+mkdirSync(join(zcode, 'skills/normify-gen'), { recursive: true });
+const skill = readFileSync(join(root, 'skills/normify-gen/SKILL.md'), 'utf8')
+  .replace('## Codex 接入', '## ZCode 接入')
+  .replace('Docs/Codex.md', 'docs/ZCode.md');
+writeFileSync(join(zcode, 'skills/normify-gen/SKILL.md'), skill, 'utf8');
 // added by gyc 2026-10-04 end
 console.log('Codex 插件已构建：dist/normify.mjs');

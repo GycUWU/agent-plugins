@@ -1,0 +1,10 @@
+{
+  "name": "normify",
+  "version": "0.5.4-zcode.1",
+  "description": "Normify 模块树：31 个工具、源码指纹、零 error 校验、HTML 渲染和开发变更闭环。",
+  "author": { "name": "yan-mc (upstream); gyc (MCP adapter)" },
+  "repository": "https://github.com/GycUWU/agent-plugins",
+  "license": "MIT",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

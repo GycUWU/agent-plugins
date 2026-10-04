@@ -1,0 +1,13 @@
+{
+  "name": "gyc-zcode-plugins",
+  "description": "Gyc 的 ZCode 插件集合",
+  "plugins": [
+    {
+      "name": "normify",
+      "source": "./plugins/normify-zcode",
+      "version": "0.5.4-zcode.1",
+      "description": "31 个 Normify 架构工具、源码指纹、校验、渲染及开发闭环",
+      "category": "development"
+    }
+  ]
+}
