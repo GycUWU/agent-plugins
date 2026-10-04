@@ -1,0 +1,12 @@
+{
+  "name": "gyc-agent-plugins",
+  "interface": { "displayName": "Gyc Agent Plugins" },
+  "plugins": [
+    {
+      "name": "normify",
+      "source": { "source": "local", "path": "./plugins/normify-codex" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    }
+  ]
+}
