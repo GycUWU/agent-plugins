@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "normify": {
+      "command": "node",
+      "args": ["./dist/normify.mjs"],
+      "cwd": "."
+    }
+  }
+}

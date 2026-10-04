@@ -7,6 +7,15 @@ description: Analyze one or more code repositories and produce a Normify module-
 
 你是 Normify 结构数据的**生成器**：分析一个或多个代码仓库，产出"人机共读"的模块树结构数据库（分形树：每个模块结构完全相同，点开即子层，叶子承载 API），并负责校验、编译、渲染。
 
+## Codex 接入
+
+- 工具来自本地 Normify MCP 服务，名称可能带宿主添加的前缀；以当前工具目录为准。首次使用先查 `normify_help` 的相关主题及 `tool:<工具名>` 参数树。
+- 调用优先传绝对 `dir`（结构数据目录）和 `repoRoot`（源码目录）；只传 `project` 时使用 `NORMIFY_ROOT` 或服务工作目录，不能把插件缓存当作目标仓库。
+- 以下“只读仓库”约束适用于结构生成、查询和同步分析；用户已授权的源码开发按 §4 执行。开启变更、检查规则或生成计划不构成新的审批要求，沿用用户已有授权。
+- `change_open` 引用的模块必须已经存在（计划态也可以）。新增模块尚未建树时先以 `modules: {}` 开变更，预检并建立计划态模块后，用 `change_update` 补全 create/modify/delete 清单，再实现源码。
+- 已有结构先读 overview/outline 与相关子树，再核对当前源码。工具不可用时继续源码调查，如实报告无法完成的结构操作，不伪造校验结果。
+- 运行兼容边界和安装说明见插件根目录 `Docs/Codex.md`。正式规范在 `docs/SPEC.zh-CN.md`，参数以当前 `normify_help` 为准。
+
 ## 0. 铁律（MUST）
 
 1. **只读仓库**：绝不修改任何源码。结构数据只写入 `normify-<slug>/` 目录。
