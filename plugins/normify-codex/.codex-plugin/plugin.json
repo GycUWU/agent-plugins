@@ -1,6 +1,6 @@
 {
   "name": "normify",
-  "version": "0.5.4-codex.1",
+  "version": "0.5.4-codex.2",
   "description": "本地 Normify 架构模块树：31 个工具、源码指纹、严格校验、交互式渲染及开发变更闭环。",
   "author": { "name": "yan-mc (upstream); gyc (Codex adapter)" },
   "license": "MIT",

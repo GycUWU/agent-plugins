@@ -5,7 +5,7 @@
     {
       "name": "normify",
       "source": "./plugins/normify-zcode",
-      "version": "0.5.4-zcode.1",
+      "version": "0.5.4-zcode.2",
       "description": "31 个 Normify 架构工具、源码指纹、校验、渲染及开发闭环",
       "category": "development"
     }

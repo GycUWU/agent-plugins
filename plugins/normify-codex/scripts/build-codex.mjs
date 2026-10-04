@@ -48,7 +48,7 @@ for (const path of ['dist/normify.mjs', 'dist/THIRD-PARTY-NOTICES.txt', 'docs/SP
 mkdirSync(join(zcode, 'skills/normify-gen'), { recursive: true });
 const skill = readFileSync(join(root, 'skills/normify-gen/SKILL.md'), 'utf8')
   .replace('## Codex 接入', '## ZCode 接入')
-  .replace('Docs/Codex.md', 'docs/ZCode.md');
+  .replace('docs/Codex.md', 'docs/ZCode.md');
 writeFileSync(join(zcode, 'skills/normify-gen/SKILL.md'), skill, 'utf8');
 // added by gyc 2026-10-04 end
 console.log('Codex 插件已构建：dist/normify.mjs');

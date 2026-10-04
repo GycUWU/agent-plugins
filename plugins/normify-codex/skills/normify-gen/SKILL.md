@@ -1,6 +1,6 @@
 ---
 name: normify-gen
-description: Analyze one or more code repositories and produce a Normify module-tree structure database (per-module Markdown files with strict YAML frontmatter), then validate, build, and render it into an explorable drill-down HTML diagram. Use when the user asks to map a project's framework/architecture into Normify modules, update an existing normify-* structure after code changes, or locate the module structure responsible for a feature. Covers bilingual (zh/en) module descriptions, leaf-only APIs, containment plus cross-tree dependency edges, zero-tolerance validation, and incremental subtree regeneration.
+description: Use when the user says "使用 normify" or "use Normify", requests an architecture map, develops a feature with planned modules, synchronizes a normify-* tree after code changes, or locates a feature's modules. Generate single-function-unit module trees, guide development before coding, and validate, build, and render affected structures with 0 errors.
 ---
 
 # Normify 生成器技能（normify-gen）
@@ -14,11 +14,21 @@ description: Analyze one or more code repositories and produce a Normify module-
 - 以下“只读仓库”约束适用于结构生成、查询和同步分析；用户已授权的源码开发按 §4 执行。开启变更、检查规则或生成计划不构成新的审批要求，沿用用户已有授权。
 - `change_open` 引用的模块必须已经存在（计划态也可以）。新增模块尚未建树时先以 `modules: {}` 开变更，预检并建立计划态模块后，用 `change_update` 补全 create/modify/delete 清单，再实现源码。
 - 已有结构先读 overview/outline 与相关子树，再核对当前源码。工具不可用时继续源码调查，如实报告无法完成的结构操作，不伪造校验结果。
-- 运行兼容边界和安装说明见插件根目录 `Docs/Codex.md`。正式规范在 `docs/SPEC.zh-CN.md`，参数以当前 `normify_help` 为准。
+- 运行兼容边界和安装说明见插件根目录 `docs/Codex.md`。正式规范在 `docs/SPEC.zh-CN.md`，参数以当前 `normify_help` 为准。
+
+## 默认触发：使用 normify
+
+用户说“使用 normify”时，按项目状态执行以下阶段。先复用工作区已有结构，包括其它 agent 或会话创建的数据，读总览及相关子树并核对当前源码。项目和路径优先从工作区与上下文确定；`my-project` 和“限流”仅为示例，实际功能以本次任务为准。
+
+1. **首次建图**：没有结构时按 §3 全量生成，粒度到单一功能单元，同轮建立容器渲染数据；校验至 0 error 后 build → render。已有有效结构时复用并增量同步。
+2. **先建图后编程**：先 brief 获取指引，再按 §4 预检、开变更并建立 planned 模块和渲染数据，补全变更清单及验收标准。实现并验证后 refresh 激活，最后 change_close 收尾。沿用用户已有源码授权和明确批准要求；用户指定自己实现时交付计划，待提供实现结果再激活。
+3. **代码变更后同步**：按 §6 用 sync 找出影响范围，更新受影响模块、API、依赖、指纹及渲染层；全项目 0 error 后重新 build → render。
+
+阶段按任务衔接：纯建图或同步任务交付对应产物；开发任务须完成真实源码实现和变更闭环。返回 HTML、tree.json 精确路径、校验结果及变更摘要，warning 如实汇报。结构及渲染更新属于“使用 normify”的请求范围；工具不可用时继续源码调查并报告未完成的工具步骤。
 
 ## 0. 铁律（MUST）
 
-1. **只读仓库**：绝不修改任何源码。结构数据只写入 `normify-<slug>/` 目录。
+1. **建图只读源码**：生成或同步架构图时只读源码，结构数据只写入 `normify-<slug>/` 目录；伴随开发时仅在用户已授权的范围内修改源码。
 2. **写时校验**：模块一律经 `normify_module_upsert` 写入（工具内置 L1 校验），不裸写文件。
 3. **零容忍**：任何阶段以 `normify_validate` 的 **0 error** 为收尾标准；warning 记录但不阻断。
 4. **单方向引用**：只写 `parent` 与出向 `deps`；`children` 字段不存在。
@@ -211,7 +221,7 @@ normify-demo-repo/
    - 模块删除：source 全部失效 → `normify_module_delete`，并**按返回的 dangling_edges 修复所有指向它的 `deps`**（悬空边是 error，逃不掉）；
    - 跨树箭头两端都要检查（目标树变了 API 键时要改 `to_api`）。
 3. **同步渲染数据**：`layouts_to_review` 里的每一层用 `normify_layout_upsert` 复核/重排 `order`/`groups`/`reading`；新增子模块后必须重写该层渲染数据（否则 `layout/missing` 提醒）。
-4. 重校验 + 重编译：`normify_validate` → `normify_build`，0 error 才能交付；更新所有改动模块的 `revision/fingerprint/updated_at`。
+4. 更新所有改动模块的 `revision/fingerprint/updated_at`，再 `normify_validate` → 修复至 0 error → `normify_build` → `normify_render`，交付更新后的结构与架构图。
 5. 汇报变更摘要：新增/删除/拆分/合并/改名模块与 API、增删边清单（标注跨树）、重排过的渲染数据层。
 
 **铁律**：只重写受影响子树文件；不动无关模块；宁可分批多轮、拆得更细，也不可粗粒度合并或留脏数据。
