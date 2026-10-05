@@ -5,7 +5,7 @@
 | 插件 | 宿主 | 状态 | 说明 |
 |---|---|---|---|
 | [Normify](plugins/normify-codex/docs/Codex.md) | Codex | 已实现并验证 | 31 个架构模块树工具、指纹同步、严格校验、HTML 渲染和开发变更闭环 |
-| [Normify](plugins/normify-zcode/docs/ZCode.md) | Z.ai ZCode | 协议及本机加载器验证通过 | 同一服务与引擎，使用 ZCode 插件清单和工作区变量 |
+| [Normify](plugins/normify-zcode/docs/ZCode.md) | Z.ai ZCode | 协议、本机加载器与手动安装验证通过 | 同一服务与引擎，使用 ZCode 插件清单和工作区变量 |
 
 ## 安装到 Codex
 
@@ -28,7 +28,9 @@ ZCode 用户在 设置 → 插件 → 创建 → 添加插件市场 中输入本
 
 优先传结构数据目录的绝对 `dir` 和源码目录的绝对 `repoRoot`。生成结构时只读源码，开发任务沿用用户已有授权；写时校验、全项目校验和关闭变更的零 error 要求保持原样。
 
-参见 [Codex 使用说明](plugins/normify-codex/docs/Codex.md)、[Codex 验收记录](plugins/normify-codex/docs/Codex-validation.md) 和 [ZCode 验收记录](plugins/normify-zcode/docs/ZCode-validation.md)。
+参见 [Codex 使用说明](plugins/normify-codex/docs/Codex.md)、[Codex 验收记录](plugins/normify-codex/docs/Codex-validation.md)、[ZCode 使用说明](plugins/normify-zcode/docs/ZCode.md) 和 [ZCode 验收记录](plugins/normify-zcode/docs/ZCode-validation.md)。
+
+ZCode 无桌面界面或需脚本化安装时，参见 [ZCode 手动安装](plugins/normify-zcode/docs/ZCode.md#手动安装无桌面界面或脚本化)。注意：只写注册表而不在 `config.json` 的 `plugins.enabledPlugins` 中启用插件，会注册成功但不加载，且无任何报错。
 
 ## 开发
 
